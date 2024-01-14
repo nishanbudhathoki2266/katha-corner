@@ -1,7 +1,8 @@
 import React from "react";
+import { Button } from "@nextui-org/react";
 
 const HomePage = () => {
-  return <h1 className="text-4xl font-bold uppercase">Second-Life</h1>;
+  return <Button color="primary">Button</Button>;
 };
 
 export default HomePage;
