@@ -5,6 +5,7 @@ dotenv.config();
 
 const app = require("./app");
 
+// Just replacing that <PASSWORD> placeholder from .env file with actual db password
 const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
