@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Quicksand } from "next/font/google";
 import "./globals.css";
-import NextUIProvider from "./NextUIProvider";
+import { Providers } from "./providers";
+import NavBar from "@/components/UI/NavBar";
 
-const inter = Inter({ subsets: ["latin"] });
+const quicksand = Quicksand({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Second-Life",
-  description: "Offer items you no longer need to the needy ones!",
+  title: "Katha-Corner",
+  description: "Your all in one Social Media Platform!",
 };
 
 export default function RootLayout({
@@ -17,10 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <main className="dark text-foreground bg-background">
-          <NextUIProvider>{children}</NextUIProvider>
-        </main>
+      <body className={quicksand.className}>
+        <Providers>
+          <NavBar />
+          <main>{children}</main>
+        </Providers>
       </body>
     </html>
   );
