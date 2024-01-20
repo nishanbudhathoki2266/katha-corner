@@ -65,12 +65,22 @@ const NavBar = () => {
 
         <NavbarMenu>
           <NavbarMenuItem>
-            <Link className="w-full" color="success" href="#" size="lg">
+            <Link
+              className="w-full"
+              color="foreground"
+              href="/auth/sign-up"
+              size="lg"
+            >
               Sign Up
             </Link>
           </NavbarMenuItem>
           <NavbarMenuItem>
-            <Link className="w-full" color="success" href="#" size="lg">
+            <Link
+              className="w-full"
+              color="foreground"
+              href="/auth/sign-in"
+              size="lg"
+            >
               Sign In
             </Link>
           </NavbarMenuItem>

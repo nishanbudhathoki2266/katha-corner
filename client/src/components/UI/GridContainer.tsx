@@ -1,7 +1,7 @@
 import React from "react";
 
 interface gridContainerInterface {
-  className: String;
+  className?: String;
   children: React.ReactNode;
 }
 

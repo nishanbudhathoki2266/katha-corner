@@ -19,7 +19,7 @@ export function ThemeToggler() {
 
   return (
     <Switch
-      defaultSelected
+      defaultSelected={theme === "dark"}
       size="sm"
       color="success"
       onChange={(e) => {
