@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Quicksand } from "next/font/google";
 import "./globals.css";
-import NextUIProvider from "./NextUIProvider";
+import { Providers } from "./providers";
 
-const inter = Inter({ subsets: ["latin"] });
+const quicksand = Quicksand({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Katha-Corner",
@@ -17,10 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <main className="dark text-foreground bg-background">
-          <NextUIProvider>{children}</NextUIProvider>
-        </main>
+      <body className={quicksand.className}>
+        <Providers>
+          <main>{children}</main>
+        </Providers>
       </body>
     </html>
   );
