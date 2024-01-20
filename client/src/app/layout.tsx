@@ -6,8 +6,8 @@ import NextUIProvider from "./NextUIProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Second-Life",
-  description: "Offer items you no longer need to the needy ones!",
+  title: "Katha-Corner",
+  description: "Your all in one Social Media Platform!",
 };
 
 export default function RootLayout({
