@@ -9,6 +9,18 @@ const signToken = (userId) =>
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
+const sendTokenAsCookie = (res, token) => {
+  res.cookie("jwt", token, {
+    // Delete the cookie from browser or client after this expires time -> in ms
+    expires: new Date(
+      Date.now() +
+        parseInt(process.env.JWT_EXPIRES_IN.split("d")[0]) * 24 * 60 * 60 * 1000
+    ),
+    // secure: true, // Enable this on production
+    httpOnly: true,
+  });
+};
+
 // Sign up a user
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, password, passwordConfirm } = req.body;
@@ -20,6 +32,8 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   const token = signToken(newUser._id);
+
+  sendTokenAsCookie(res, token);
 
   res.status(201).json({
     status: "success",
@@ -47,9 +61,14 @@ exports.signin = catchAsync(async (req, res, next) => {
   // If everything ok, send token to client
   const token = signToken(user._id);
 
+  sendTokenAsCookie(res, token);
+
   res.status(200).json({
     status: "success",
     token,
+    data: {
+      user,
+    },
   });
 });
 
@@ -109,6 +128,8 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   // Log user in again, send JWT
   const token = signToken(user._id);
+
+  sendTokenAsCookie(res, token);
 
   res.status(200).json({
     status: "success",
