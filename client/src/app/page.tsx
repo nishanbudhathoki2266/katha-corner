@@ -1,7 +1,13 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const HomePage = () => {
-  return <h1 className="text-4xl font-bold uppercase">Second-Life</h1>;
+  const router = useRouter();
+
+  router.push("/auth/sign-up");
+  return <h1>WELCOME TO KATHA CORNER</h1>;
 };
 
 export default HomePage;

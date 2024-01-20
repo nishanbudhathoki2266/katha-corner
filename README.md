@@ -1,64 +1,63 @@
-# SECOND-LIFE
+# KathaCorner
 
-Second life is a web application built with Node.js, Express, MongoDB, and Next.js, aiming to facilitate the exchange of items for free among users. It provides a seamless experience for users to offer items they no longer need, claim available items, and have the admin oversee and approve the exchange process.
+Welcome to KathaCorner – Your Social Media Platform!
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Authentication](#authentication)
+- [Contributing](#contributing)
 
 ## Overview
 
-Second life is designed to be user-friendly, allowing individuals to contribute to a community of giving. Users can create listings for items they wish to give away, and others can easily claim those items.
+KathaCorner is a social media platform where users can connect, share stories, and engage with each other. Follow friends, like and comment on posts, and explore a world of diverse narratives.
 
 ## Features
 
-### User-Friendly Interface:
-
-A clean and intuitive design for easy navigation and contribution.
-
-### Authentication:
-
-A user must be registered in the system in order to create or claim any listing.
-
-### Filtering
-
-A user can filter the listings or items based on some filters , catetgory for example.e
-
-### Giveaway Listings:
-
-Users can create detailed listings for items they want to give away.
-
-### Claiming Items:
-
-Users can express interest and claim items they are interested in.
-
-### Give away Approval:
-
-The listing creator has to review and approve claims, ensuring a trustworthy exchange process.
+- **User Authentication:** Secure user registration and login system using JWT tokens.
+- **Post Interaction:** Like, comment, and share posts with your followers.
+- **Follow System:** Connect with friends and stay updated on their latest posts.
+- **Responsive Design:** Access KathaCorner seamlessly on various devices.
+- **Tech-Savvy Stack:** Built with Next.js, MongoDB, Express, and Node.
 
 ## Tech Stack
 
-### Frontend:
+- **Frontend:** [Next.js](https://nextjs.org/), [Next.js](https://nextui.org/)
+- **Backend:** [Node.js](https://nodejs.org/), [Express](https://expressjs.com/)
+- **Database:** [MongoDB](https://www.mongodb.com/)
+- **Authentication:** [JWT Tokens](https://jwt.io/)
 
-Next.js
+## Getting Started
 
-### Backend:
+To get started with KathaCorner, follow these steps:
 
-Node.js, Express
+### Installation
 
-### Database:
+1. Clone the repository: `git clone git@github.com:nishanbudhathoki2266/katha-corner.git`
+2. Navigate to the project directory: `cd katha-corner`
+3. Install dependencies:
+   - For the client (Frontend): `cd client && npm install`
+   - For the server (Backend): `cd server && npm install`
 
-MongoDB
+### Usage
 
-### Authentication:
+1. Start the backend server:
+   - For development: `cd server && npm run start:dev`
+   - For production: `cd server && npm run start:prod`
+2. Start the frontend development server: `cd client && npm run dev`
+3. Open your browser and go to `http://localhost:3000`
 
-JWT (JSON Web Tokens)
+Feel free to customize the application to suit your needs and style.
+
+## Authentication
+
+KathaCorner uses JWT tokens for secure user authentication. Ensure you handle tokens securely and validate user sessions.
 
 ## Contributing
 
-We welcome contributions! If you'd like to contribute to FreeGive, please follow these guidelines:
-
-Fork the repository.
-Create a new branch for your feature or bug fix.
-Make your changes and submit a pull request.
-
-Contact
-For any questions or concerns, please contact me at [nishanbudhathoki2266@gmail.com].
-
-Happy Building!
+Contributions are welcome! If you have ideas, bug reports, or want to contribute code, feel free to open an issue or submit a pull request.
