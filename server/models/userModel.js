@@ -48,6 +48,14 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// Updating the passwordChangedTimeStamp after the users change password
+userSchema.pre("save", function (next) {
+  if (!this.isModified("password") || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
 // Compare passwords
 userSchema.methods.correctPassword = async function (
   candidatePassword,
