@@ -1,7 +1,8 @@
 // app/components/ThemeSwitcher.tsx
 "use client";
 
-import { Switch } from "@nextui-org/react";
+import { Skeleton } from "@nextui-org/skeleton";
+import { Switch } from "@nextui-org/switch";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
@@ -14,7 +15,7 @@ export function ThemeToggler() {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!mounted) return <Skeleton className="h-6 w-16 rounded-xl" />;
 
   return (
     <Switch
@@ -26,7 +27,9 @@ export function ThemeToggler() {
       }}
       thumbIcon={({ isSelected }) => (isSelected ? <FaMoon /> : <FaSun />)}
     >
-      {theme}
+      <Skeleton isLoaded={mounted}>
+        <span className="uppercase font-semibold text-xs">{theme}</span>
+      </Skeleton>
     </Switch>
   );
 }
