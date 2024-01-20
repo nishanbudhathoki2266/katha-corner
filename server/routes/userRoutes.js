@@ -8,6 +8,7 @@ router.post("/signup", authController.signup);
 router.post("/signin", authController.signin);
 
 router.patch("/updateMe", authController.protect, userController.updateMe);
+router.delete("/deleteMe", authController.protect, userController.deleteMe);
 
 router.patch(
   "/updateMyPassword",

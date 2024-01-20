@@ -28,6 +28,16 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+// Delete Me
+exports.deleteMe = catchAsync(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user._id, { active: false });
+
+  res.status(204).json({
+    status: "success",
+    data: null,
+  });
+});
+
 // USERS
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   res.status(200).json({
