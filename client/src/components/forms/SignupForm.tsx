@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Input } from "@nextui-org/input";
+import { Input, Textarea } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
 import { useForm, Controller } from "react-hook-form";
@@ -15,6 +15,7 @@ interface FormValues {
   email: string;
   password: string;
   passwordConfirm: string;
+  bio?: string;
 }
 
 const SignupForm = () => {
@@ -29,13 +30,14 @@ const SignupForm = () => {
   } = useForm<FormValues>();
 
   const onSubmit = async (formData: FormValues) => {
-    const { fullName, email, password, passwordConfirm } = formData;
+    const { fullName, email, password, passwordConfirm, bio } = formData;
     setLoading(true);
     const res = await signUp({
       name: fullName,
       email,
       password,
       passwordConfirm,
+      bio,
     });
 
     setLoading(false);
@@ -44,6 +46,7 @@ const SignupForm = () => {
       reset();
       router.push("/");
       toast.success("Signed up successfully!");
+      toast.success(`${res.data.user.fullName}`);
     } else {
       toast.error(res.message);
     }
@@ -60,6 +63,7 @@ const SignupForm = () => {
         }}
         render={({ field: { onChange } }) => (
           <Input
+            isRequired
             type="text"
             size="md"
             label="Full Name"
@@ -81,6 +85,7 @@ const SignupForm = () => {
         }}
         render={({ field: { onChange } }) => (
           <Input
+            isRequired
             type="text"
             size="md"
             label="Email"
@@ -105,6 +110,7 @@ const SignupForm = () => {
         }}
         render={({ field: { onChange } }) => (
           <Input
+            isRequired
             type="password"
             size="md"
             label="Password"
@@ -129,12 +135,35 @@ const SignupForm = () => {
         }}
         render={({ field: { onChange } }) => (
           <Input
+            isRequired
             type="password"
             size="md"
             label="Confirm Password"
             variant="bordered"
             isInvalid={errors?.passwordConfirm ? true : false}
             errorMessage={errors?.passwordConfirm?.message}
+            onChange={onChange}
+          />
+        )}
+      />
+
+      {/* Bio field */}
+      <Controller
+        control={control}
+        name="bio"
+        rules={{
+          maxLength: {
+            value: 150,
+            message: "Only 150 or less characters allowed!",
+          },
+        }}
+        render={({ field: { onChange } }) => (
+          <Textarea
+            variant="bordered"
+            label="Bio"
+            labelPlacement="inside"
+            isInvalid={errors?.bio ? true : false}
+            errorMessage={errors?.bio?.message}
             onChange={onChange}
           />
         )}

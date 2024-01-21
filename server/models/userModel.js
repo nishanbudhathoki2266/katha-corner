@@ -15,6 +15,13 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, "Please provide a valid email"],
   },
+  bio: {
+    type: String,
+    maxLength: [
+      150,
+      "Please note that only 150 or less characters are allowed in bio!",
+    ],
+  },
   image: String,
   password: {
     type: String,
