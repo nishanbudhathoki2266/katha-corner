@@ -10,7 +10,7 @@ import { Button } from "@nextui-org/button";
 const SignUpPage = () => {
   return (
     <Container className="flex min-h-[90dvh] justify-center items-center">
-      <GridContainer className="bg-background overflow-hidden rounded-lg shadow-lg border">
+      <GridContainer className="bg-background overflow-hidden rounded-lg shadow-lg border items-stretch">
         <div className="col-span-full flex flex-col justify-center gap-6 lg:col-span-6 p-4 sm:p-16 lg:p-8 xl:p-24">
           <div className="flex flex-col text-center justify-center items-center gap-2">
             <Heading isPrimary>Welcome Back</Heading>

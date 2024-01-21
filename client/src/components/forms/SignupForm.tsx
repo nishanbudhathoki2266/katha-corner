@@ -1,34 +1,76 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
 import { useForm, Controller } from "react-hook-form";
 import validateEmail from "@/utils/ValidateEmail";
 import toast from "react-hot-toast";
+import { signUp } from "@/app/actions/auth";
+import { useRouter } from "next/navigation";
 
 interface FormValues {
+  fullName: string;
   email: string;
   password: string;
   passwordConfirm: string;
 }
 
 const SignupForm = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
   const {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm<FormValues>();
 
+  const onSubmit = async (formData: FormValues) => {
+    const { fullName, email, password, passwordConfirm } = formData;
+    setLoading(true);
+    const res = await signUp({
+      name: fullName,
+      email,
+      password,
+      passwordConfirm,
+    });
+
+    setLoading(false);
+    if (res.status === "success") {
+      // Reset form fields
+      reset();
+      router.push("/");
+      toast.success("Signed up successfully!");
+    } else {
+      toast.error(res.message);
+    }
+  };
+
   return (
-    <form
-      className="flex flex-col gap-3"
-      onSubmit={handleSubmit((data) => {
-        console.log(data);
-        toast.success("Form submission!");
-      })}
-    >
+    <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+      {/* Full name field */}
+      <Controller
+        control={control}
+        name="fullName"
+        rules={{
+          required: "Please provide your full name!",
+        }}
+        render={({ field: { onChange } }) => (
+          <Input
+            type="text"
+            size="md"
+            label="Full Name"
+            variant="bordered"
+            isInvalid={errors?.fullName ? true : false}
+            errorMessage={errors?.fullName?.message}
+            onChange={onChange}
+          />
+        )}
+      />
+
       {/* Email field */}
       <Controller
         control={control}
@@ -54,7 +96,13 @@ const SignupForm = () => {
       <Controller
         control={control}
         name="password"
-        rules={{ required: "Please provide your password!" }}
+        rules={{
+          required: "Please provide your password!",
+          minLength: {
+            value: 8,
+            message: "Password must be at least 8 characters long!",
+          },
+        }}
         render={({ field: { onChange } }) => (
           <Input
             type="password"
@@ -106,7 +154,7 @@ const SignupForm = () => {
       </p>
 
       {/* Sign Up Button */}
-      <Button type="submit" color="success" isLoading={false}>
+      <Button type="submit" color="success" isLoading={loading}>
         Sign Up
       </Button>
     </form>
