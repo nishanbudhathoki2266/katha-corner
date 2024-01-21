@@ -5,19 +5,8 @@ import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
 import { useForm, Controller } from "react-hook-form";
-
-const validateEmail = (value: string) => {
-  if (!value) {
-    return "Email is required";
-  }
-
-  const regex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
-  if (!regex.test(value)) {
-    return "Please enter a valid email address!";
-  }
-
-  return true;
-};
+import validateEmail from "@/utils/ValidateEmail";
+import toast from "react-hot-toast";
 
 interface FormValues {
   email: string;
@@ -32,12 +21,13 @@ const SignupForm = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  console.log(errors);
-
   return (
     <form
       className="flex flex-col gap-3"
-      onSubmit={handleSubmit((data) => console.log(data))}
+      onSubmit={handleSubmit((data) => {
+        console.log(data);
+        toast.success("Form submission!");
+      })}
     >
       {/* Email field */}
       <Controller

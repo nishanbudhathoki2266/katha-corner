@@ -3,6 +3,7 @@ import { Quicksand } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import NavBar from "@/components/UI/NavBar";
+import { Toaster } from "react-hot-toast";
 
 const quicksand = Quicksand({ subsets: ["latin"] });
 
@@ -22,6 +23,15 @@ export default function RootLayout({
         <Providers>
           <NavBar />
           <main>{children}</main>
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 5000,
+              success: {
+                duration: 4000,
+              },
+            }}
+          />
         </Providers>
       </body>
     </html>
