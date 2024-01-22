@@ -1,11 +1,10 @@
 import Container from "@/components/UI/Container";
 import GridContainer from "@/components/UI/GridContainer";
 import Heading from "@/components/UI/Heading";
-import { Input } from "@nextui-org/input";
+import SignInForm from "@/components/forms/SignInForm";
 import { Divider } from "@nextui-org/divider";
 import Image from "next/image";
 import React from "react";
-import { Button } from "@nextui-org/button";
 
 const SignUpPage = () => {
   return (
@@ -22,24 +21,7 @@ const SignUpPage = () => {
           </div>
 
           {/* Form */}
-
-          <form className="flex flex-col gap-3">
-            {/* Email field */}
-            <Input type="email" size="md" label="Email" variant="bordered" />
-
-            {/* Password field */}
-            <Input
-              type="password"
-              size="md"
-              label="Password"
-              variant="bordered"
-            />
-
-            {/* Sign In Button */}
-            <Button color="success" isLoading={false}>
-              Sign In
-            </Button>
-          </form>
+          <SignInForm />
         </div>
         <div className="hidden lg:block col-span-6 aspect-square relative">
           <Image
