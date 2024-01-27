@@ -26,8 +26,6 @@ interface NavBarProps {
 const NavBar = ({ className = "" }: NavBarProps) => {
   const pathname = usePathname();
 
-  console.log("PATHNAME FROM PROFILE ", pathname);
-
   // Because I don't want to show navigation on login and register page
   if (pathname.startsWith("/auth"))
     return (

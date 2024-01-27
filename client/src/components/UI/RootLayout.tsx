@@ -3,7 +3,6 @@
 import React, { ReactNode } from "react";
 import GridContainer from "./GridContainer";
 import NavBar from "./NavBar";
-import Container from "./Container";
 import { usePathname } from "next/navigation";
 
 interface RootLayoutPageProps {
@@ -12,8 +11,6 @@ interface RootLayoutPageProps {
 
 const RootLayoutPage = ({ children }: RootLayoutPageProps) => {
   const pathname = usePathname();
-
-  console.log("parent pathname", pathname);
 
   if (pathname.startsWith("/auth"))
     return (
