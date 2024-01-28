@@ -7,6 +7,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { MdEdit } from "react-icons/md";
 import { Button } from "@nextui-org/react";
+import PostCard from "@/components/posts/PostCard";
 
 const ProfilePage = () => {
   const user = useSelector(getUserDetails);
@@ -33,7 +34,7 @@ const ProfilePage = () => {
               <span className="font-semibold">1k</span> followers
             </h4>
             <h4>
-              <span className="font-semibold">12</span> followings
+              <span className="font-semibold">12</span> following
             </h4>
           </div>
           <div className="flex items-center justify-between flex-wrap gap-2">
@@ -60,8 +61,16 @@ const ProfilePage = () => {
       </SectionContainer>
 
       {/* All Posts */}
-      <SectionContainer className="p-4 min-h-screen lg:p-6 w-full flex flex-wrap items-start gap-4  border relative border-default-100 rounded-lg shadow-lg mt-4">
-        All Posts here!
+      <SectionContainer className="p-4 min-h-screen lg:p-6 border border-default-100 rounded-lg shadow-lg mt-4 flex flex-col gap-4">
+        <h1 className="text-lg text-default-600 font-semibold leading-tight">
+          Your Posts
+        </h1>
+        <PostCard />
+        <PostCard />
+        <PostCard />
+        <PostCard />
+        <PostCard />
+        <PostCard />
       </SectionContainer>
     </>
   );

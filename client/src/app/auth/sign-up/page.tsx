@@ -1,7 +1,7 @@
 import Container from "@/components/UI/Container";
 import GridContainer from "@/components/UI/GridContainer";
 import Heading from "@/components/UI/Heading";
-import SignupForm from "@/components/forms/SignupForm";
+import SignupForm from "@/components/users/SignupForm";
 import { Divider } from "@nextui-org/divider";
 import Image from "next/image";
 import React from "react";
