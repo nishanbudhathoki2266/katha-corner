@@ -97,7 +97,7 @@ const NavBar = ({ className = "" }: NavBarProps) => {
 
   return (
     <nav
-      className={`bg-success w-full flex lg:flex-col lg:gap-4 p-2 lg:p-6 overflow-x-auto ${className}`}
+      className={`bg-success w-full flex lg:flex-col lg:gap-4 p-2 lg:p-6 ${className}`}
     >
       <div className="hidden w-full lg:flex lg:flex-col items-center justify-center gap-2">
         <Avatar
