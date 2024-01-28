@@ -4,7 +4,6 @@ import React from "react";
 import { Link } from "@nextui-org/link";
 import NAV_LINKS from "@/consts/Navlinks";
 import { Button } from "@nextui-org/button";
-import { Avatar } from "@nextui-org/avatar";
 import { usePathname } from "next/navigation";
 import {
   Navbar,
@@ -97,27 +96,17 @@ const NavBar = ({ className = "" }: NavBarProps) => {
 
   return (
     <nav
-      className={`bg-success w-full flex lg:flex-col lg:gap-4 p-2 lg:p-6 ${className}`}
+      className={`bg-background w-full flex lg:flex-col shadow-lg border-t lg:border-r lg:border-t-0 lg:gap-4 p-8 lg:p-6 ${className}`}
     >
-      <div className="hidden w-full lg:flex lg:flex-col items-center justify-center gap-2">
-        <Avatar
-          isBordered
-          color="success"
-          className="w-28 h-28 text-large"
-          src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        />
-        <h1 className="text-md text-background font-medium tracking-wide">
-          Nishan Budhathoki
-        </h1>
-      </div>
+      <Logo className="hidden lg:flex w-fit mb-4 mx-4" />
       {NAV_LINKS.map((navLink) => (
         <Link
           key={navLink.name}
           href={navLink.path}
           className={`flex items-center justify-center lg:justify-start w-full py-2 px-4 rounded-lg gap-4 transition-all duration-300 ${
             pathname === navLink.path
-              ? "text-success-900 bg-background"
-              : "text-background"
+              ? "text-background bg-success"
+              : "text-foreground"
           }`}
         >
           <span className="text-xl">{navLink.icon}</span>
