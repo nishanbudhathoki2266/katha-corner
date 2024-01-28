@@ -1,25 +1,31 @@
 "use client";
-
 import React from "react";
+
+import { Link } from "@nextui-org/link";
+import NAV_LINKS from "@/consts/Navlinks";
+import { Button } from "@nextui-org/button";
 import { usePathname } from "next/navigation";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
+  NavbarMenuToggle,
 } from "@nextui-org/navbar";
-import { Link } from "@nextui-org/link";
-import { Button } from "@nextui-org/button";
-import { ThemeToggler } from "./ThemeToggler";
-import Logo from "./Logo";
 
-const NavBar = () => {
+import Logo from "./Logo";
+import { ThemeToggler } from "./ThemeToggler";
+
+interface NavBarProps {
+  className?: string;
+}
+
+const NavBar = ({ className = "" }: NavBarProps) => {
   const pathname = usePathname();
 
-  //   Because I don't want to show navigation on login and register page
+  // Because I don't want to show navigation on login and register page
   if (pathname.startsWith("/auth"))
     return (
       <Navbar>
@@ -88,7 +94,27 @@ const NavBar = () => {
       </Navbar>
     );
 
-  return <div>NavBar</div>;
+  return (
+    <nav
+      className={`bg-background w-full flex lg:flex-col shadow-lg border-t lg:border-r lg:border-t-0 lg:gap-4 p-8 lg:p-6 ${className}`}
+    >
+      <Logo className="hidden lg:flex w-fit mb-4 mx-4" />
+      {NAV_LINKS.map((navLink) => (
+        <Link
+          key={navLink.name}
+          href={navLink.path}
+          className={`flex items-center justify-center lg:justify-start w-full py-2 px-4 rounded-lg gap-4 transition-all duration-300 ${
+            pathname === navLink.path
+              ? "text-background bg-success"
+              : "text-foreground"
+          }`}
+        >
+          <span className="text-xl">{navLink.icon}</span>
+          <span className="hidden lg:inline">{navLink.name}</span>
+        </Link>
+      ))}
+    </nav>
+  );
 };
 
 export default NavBar;

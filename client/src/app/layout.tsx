@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import NavBar from "@/components/UI/NavBar";
 import { Toaster } from "react-hot-toast";
+import RootLayoutPage from "@/components/UI/RootLayout";
 
 const quicksand = Quicksand({ subsets: ["latin"] });
 
@@ -21,8 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={quicksand.className}>
         <Providers>
-          <NavBar />
-          <main>{children}</main>
+          <RootLayoutPage>{children}</RootLayoutPage>
           <Toaster
             position="top-right"
             toastOptions={{
