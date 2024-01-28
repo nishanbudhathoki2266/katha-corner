@@ -1,13 +1,18 @@
 "use client";
-import { Link } from "@nextui-org/link";
-import { useForm, Controller } from "react-hook-form";
-import validateEmail from "@/utils/ValidateEmail";
-import toast from "react-hot-toast";
-import { signIn, signUp } from "@/app/actions/auth";
-import { useRouter } from "next/navigation";
+
 import React, { useState } from "react";
+
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { Controller, useForm } from "react-hook-form";
+
+import { Link } from "@nextui-org/link";
 import { Input } from "@nextui-org/input";
+import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
+import validateEmail from "@/utils/ValidateEmail";
+import { signIn, signUp } from "@/app/actions/auth";
+import { setUserInfo } from "@/redux/reducerSlices/user";
 
 interface FormValues {
   email: string;
@@ -15,6 +20,8 @@ interface FormValues {
 }
 
 const SignInForm = () => {
+  const dispatch = useDispatch();
+
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -35,11 +42,11 @@ const SignInForm = () => {
 
     setLoading(false);
     if (res.status === "success") {
-      // Reset form fields
+      dispatch(setUserInfo(res));
       reset();
       router.push("/");
       toast.success("Signed up successfully!");
-      toast.success(`${res.data.user.name}`);
+      toast.success(`${res.token}`);
     } else {
       toast.error(res.message);
     }
