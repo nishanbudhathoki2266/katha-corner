@@ -20,10 +20,6 @@ export async function getProfileById(id: string): Promise<ApiResponse> {
 
     const data: ApiResponse = await res.json();
 
-    await new Promise(function (resolve) {
-      setTimeout(resolve, 5000);
-    });
-
     return data;
   } catch (err: any) {
     return {

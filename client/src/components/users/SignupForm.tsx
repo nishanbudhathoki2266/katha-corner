@@ -1,14 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { Input, Textarea } from "@nextui-org/input";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { Controller, useForm } from "react-hook-form";
+import Datepicker from "react-tailwindcss-datepicker";
+
 import { Link } from "@nextui-org/link";
 import { Button } from "@nextui-org/button";
-import { useForm, Controller } from "react-hook-form";
-import validateEmail from "@/utils/ValidateEmail";
-import toast from "react-hot-toast";
 import { signUp } from "@/app/actions/auth";
 import { useRouter } from "next/navigation";
+import validateEmail from "@/utils/ValidateEmail";
+import { Input, Textarea } from "@nextui-org/input";
+import { Select, SelectItem } from "@nextui-org/select";
+import { setUserInfo } from "@/redux/reducerSlices/user";
 
 interface FormValues {
   fullName: string;
@@ -16,9 +21,15 @@ interface FormValues {
   password: string;
   passwordConfirm: string;
   bio?: string;
+  gender: "male" | "female" | "others";
+  dob: {
+    startDate: string;
+    endDate: string;
+  };
 }
 
 const SignupForm = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -30,7 +41,9 @@ const SignupForm = () => {
   } = useForm<FormValues>();
 
   const onSubmit = async (formData: FormValues) => {
-    const { fullName, email, password, passwordConfirm, bio } = formData;
+    const { fullName, email, password, passwordConfirm, bio, gender, dob } =
+      formData;
+
     setLoading(true);
     const res = await signUp({
       name: fullName,
@@ -38,15 +51,16 @@ const SignupForm = () => {
       password,
       passwordConfirm,
       bio,
+      gender,
+      dob: new Date(dob.startDate),
     });
 
     setLoading(false);
     if (res.status === "success") {
-      // Reset form fields
       reset();
+      dispatch(setUserInfo(res));
       router.push("/");
       toast.success("Signed up successfully!");
-      toast.success(`${res.data.user.fullName}`);
     } else {
       toast.error(res.message);
     }
@@ -166,6 +180,59 @@ const SignupForm = () => {
             errorMessage={errors?.bio?.message}
             onChange={onChange}
           />
+        )}
+      />
+
+      {/* Gender */}
+      <Controller
+        control={control}
+        name="gender"
+        rules={{
+          required: "Please provide your gender!",
+        }}
+        render={({ field: { onChange } }) => (
+          <Select
+            variant="bordered"
+            placeholder="Select your gender"
+            isRequired
+            label="Gender"
+            onChange={onChange}
+            isInvalid={errors?.gender ? true : false}
+            errorMessage={errors?.gender?.message}
+          >
+            <SelectItem key="male">Male</SelectItem>
+            <SelectItem key="female">Female</SelectItem>
+            <SelectItem key="others">Others</SelectItem>
+          </Select>
+        )}
+      />
+
+      {/* DOB */}
+      <Controller
+        control={control}
+        name="dob"
+        rules={{
+          required: "Please provide your Date of Birth!",
+        }}
+        render={({ field: { value, onChange } }) => (
+          <>
+            <Datepicker
+              primaryColor={"green"}
+              maxDate={new Date(Date.now())}
+              inputClassName={
+                "w-full rounded-lg p-2 border-2 border-gray-200 dark:border-gray-500 bg-transparent"
+              }
+              placeholder="Date of Birth"
+              useRange={false}
+              asSingle={true}
+              onChange={onChange}
+              // @ts-ignore
+              value={value}
+            />
+            {errors?.dob && (
+              <p className="text-small text-red-500">{errors?.dob?.message}</p>
+            )}
+          </>
         )}
       />
 

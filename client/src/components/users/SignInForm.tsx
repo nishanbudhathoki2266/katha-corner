@@ -45,8 +45,7 @@ const SignInForm = () => {
       dispatch(setUserInfo(res));
       reset();
       router.push("/");
-      toast.success("Signed up successfully!");
-      toast.success(`${res.token}`);
+      toast.success("Welcome back!");
     } else {
       toast.error(res.message);
     }

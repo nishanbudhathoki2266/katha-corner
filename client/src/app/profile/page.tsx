@@ -67,7 +67,7 @@ const ProfilePage: React.FC = () => {
 
               {/* Bio Div */}
               <div className="flex flex-col gap-2">
-                <Skeleton className="p-2 w-8 rounded-xl" />
+                <Skeleton className="p-2 w-12 rounded-xl" />
                 <Skeleton className="p-6 rounded-xl" />
               </div>
             </div>
@@ -93,13 +93,11 @@ const ProfilePage: React.FC = () => {
                   <span className="font-semibold">12</span> following
                 </h4>
               </div>
-              <div className="flex items-center justify-between flex-wrap gap-2">
+              <div className="flex items-start justify-between flex-wrap gap-2">
                 <div className="flex flex-col">
-                  <Skeleton isLoaded={!isLoading} className="rounded-lg">
-                    <h1 className="text-lg text-default-600 font-semibold leading-tight">
-                      {user?.name}
-                    </h1>
-                  </Skeleton>
+                  <h1 className="text-lg text-default-600 font-semibold leading-tight">
+                    {user?.name}
+                  </h1>
                   <span className="text-xs font-medium text-default-500">
                     {user?.email}
                   </span>

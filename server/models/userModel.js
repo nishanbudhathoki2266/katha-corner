@@ -22,6 +22,18 @@ const userSchema = new mongoose.Schema({
       "Please note that only 150 or less characters are allowed in bio!",
     ],
   },
+  dob: {
+    type: Date,
+    required: [true, "Please provide your date of birth"],
+  },
+  gender: {
+    type: String,
+    enum: {
+      values: ["male", "female", "others"],
+      message: "Gender must be either male, female or others!",
+    },
+    default: "",
+  },
   image: String,
   password: {
     type: String,
