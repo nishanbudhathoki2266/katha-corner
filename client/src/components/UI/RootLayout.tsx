@@ -25,7 +25,7 @@ const RootLayoutPage = ({ children }: RootLayoutPageProps) => {
       <main className="col-span-full lg:col-span-9 lg:order-2 min-h-screen px-2 py-6">
         {children}
       </main>
-      <NavBar className="col-span-full lg:col-span-3 bottom-0 sticky lg:relative lg:order-1" />
+      <NavBar className="col-span-full lg:col-span-3 bottom-0 sticky z-50 lg:relative lg:order-1" />
     </GridContainer>
   );
 };

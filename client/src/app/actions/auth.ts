@@ -7,6 +7,8 @@ export async function signUp(formData: {
   password: string;
   passwordConfirm: string;
   bio?: string;
+  gender: "male" | "female" | "others";
+  dob: Date;
 }) {
   try {
     const res = await fetch("http://127.0.0.1:8000/api/v1/users/signUp", {
@@ -25,7 +27,7 @@ export async function signUp(formData: {
     }
 
     return data;
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       status: "fail",
       message: "Something went wrong!",
@@ -51,7 +53,7 @@ export async function signIn(formData: { email: string; password: string }) {
     }
 
     return data;
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       status: "fail",
       message: "Something went wrong!",

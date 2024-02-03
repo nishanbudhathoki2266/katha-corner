@@ -46,19 +46,20 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createUser = (req, res) => {
-  res.status(500).json({
-    status: "err",
-    message: "This route is under construction",
-  });
-};
+exports.getUser = catchAsync(async (req, res) => {
+  const user = await User.findById(req.params.id);
 
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: "err",
-    message: "This route is under construction",
+  if (!user) {
+    return next(new AppError("No user found with that ID!", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      user,
+    },
   });
-};
+});
 
 exports.updateUser = (req, res) => {
   res.status(500).json({

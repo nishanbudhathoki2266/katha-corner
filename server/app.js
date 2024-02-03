@@ -1,7 +1,9 @@
 const express = require("express");
 
 const morgan = require("morgan");
+const cors = require("cors");
 
+const postRouter = require("./routes/postRoutes");
 const userRouter = require("./routes/userRoutes");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
@@ -9,6 +11,7 @@ const globalErrorHandler = require("./controllers/errorController");
 const app = express();
 
 // MIDDLEWARES
+app.use(cors());
 
 // Only use the morgan logger in the development environment
 if (process.env.NODE_ENV === "development") {
@@ -21,6 +24,7 @@ app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
 // ROUTES
+app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/users", userRouter);
 
 // Handling unhandled routes
