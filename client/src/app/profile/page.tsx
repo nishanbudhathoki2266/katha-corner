@@ -1,35 +1,58 @@
 "use client";
-import SectionContainer from "@/components/UI/SectionContainer";
-import { getUserDetails } from "@/redux/reducerSlices/user";
-import { Avatar } from "@nextui-org/avatar";
-import React, { useEffect, useState } from "react";
+
+import React, { ReactElement, useEffect, useState } from "react";
+
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { MdEdit } from "react-icons/md";
+
+import { MdEdit, MdOutlinePostAdd } from "react-icons/md";
+import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
 import { Skeleton } from "@nextui-org/skeleton";
 import PostCard from "@/components/posts/PostCard";
-import { getProfileById } from "../actions/users";
-import toast from "react-hot-toast";
+import SectionContainer from "@/components/UI/SectionContainer";
+import { getToken, getUserDetails } from "@/redux/reducerSlices/user";
 
-interface ApiResponseSuccess {
+import { getProfileById } from "../actions/users";
+import { getMyPosts } from "../actions/posts";
+import PostCardSkeleton from "@/components/posts/PostCardSkeleton";
+import { useRouter } from "next/navigation";
+
+interface ProfileApiResponse {
   _id: string;
   name: string;
   email: string;
-  bio: string;
+  bio?: string;
+}
+
+interface PostsApiResponse {
+  _id: string;
+  description: string;
+  user: ProfileApiResponse;
+  location: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const ProfilePage: React.FC = () => {
   const userId = useSelector(getUserDetails)?._id;
+  const token = useSelector(getToken);
 
-  const [isLoading, setIsLoading] = useState<Boolean>(true);
-  const [user, setUser] = useState<ApiResponseSuccess | null>(null);
+  const router = useRouter();
 
+  const [isLoadingUser, setIsLoadingUser] = useState<Boolean>(true);
+  const [user, setUser] = useState<ProfileApiResponse | null>(null);
+
+  const [isLoadingPosts, setIsLoadingPosts] = useState<boolean>(true);
+  const [posts, setPosts] = useState<PostsApiResponse[] | null>(null);
+
+  // Also could use the separate api for fetching current user's profile, but keeping it here simple for now
   const fetchUserInfo = async () => {
     if (!userId) return;
 
     const res = await getProfileById(userId);
 
-    setIsLoading(false);
+    setIsLoadingUser(false);
 
     if (res.status === "success" && res.data) {
       setUser(res.data?.user);
@@ -38,8 +61,23 @@ const ProfilePage: React.FC = () => {
     }
   };
 
+  const fetchUserPosts = async () => {
+    if (!token) return;
+
+    const res = await getMyPosts(token);
+
+    setIsLoadingPosts(false);
+
+    if (res.status === "success" && res.data?.posts) {
+      setPosts(res.data?.posts);
+    } else {
+      res.message && toast.error(res.message);
+    }
+  };
+
   useEffect(() => {
     fetchUserInfo();
+    fetchUserPosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -47,7 +85,7 @@ const ProfilePage: React.FC = () => {
     <>
       {/* Profile section */}
       <SectionContainer className="p-4 lg:p-6 w-full flex flex-wrap items-start gap-4  border relative border-default-100 rounded-lg shadow-lg">
-        {isLoading ? (
+        {isLoadingUser ? (
           <>
             <Skeleton className="w-28 h-28 rounded-full" />
 
@@ -119,17 +157,35 @@ const ProfilePage: React.FC = () => {
       </SectionContainer>
 
       {/* All Posts */}
-      <SectionContainer className="p-4 min-h-screen lg:p-6 border border-default-100 rounded-lg shadow-lg mt-4 flex flex-col gap-4">
-        <h1 className="text-lg text-default-600 font-semibold leading-tight">
-          Your Posts
-        </h1>
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-      </SectionContainer>
+
+      {!isLoadingPosts && !posts?.length ? (
+        <SectionContainer className="min-h-[40dvh] p-4 lg:p-6 border border-default-100 rounded-lg flex justify-center items-center shadow-lg mt-4 flex-col">
+          <MdOutlinePostAdd
+            className="text-9xl text-foreground-300 hover:scale-105 cursor-pointer transition-transform ease-in-out duration-400"
+            onClick={() => router.push("/")}
+          />
+          <h1 className="text-2xl text-foreground-500 capitalize font-bold">
+            You don&apos;t have a post yet
+          </h1>
+          <p className="text-foreground-400 font-medium">
+            Tap the post icon to create your first post.
+          </p>
+        </SectionContainer>
+      ) : (
+        <SectionContainer className="p-4 min-h-screen lg:p-6 border border-default-100 rounded-lg shadow-lg mt-4 flex flex-col gap-4">
+          <h1 className="text-lg text-default-600 font-semibold leading-tight">
+            Your Posts
+          </h1>
+
+          {isLoadingPosts
+            ? [1, 2, 3, 4].map((item) => <PostCardSkeleton key={item} />)
+            : posts?.map(
+                (post: PostsApiResponse): ReactElement => (
+                  <PostCard key={post._id} post={post} userId={userId} />
+                )
+              )}
+        </SectionContainer>
+      )}
     </>
   );
 };

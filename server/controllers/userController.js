@@ -46,13 +46,6 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createUser = (req, res) => {
-  res.status(500).json({
-    status: "err",
-    message: "This route is under construction",
-  });
-};
-
 exports.getUser = catchAsync(async (req, res) => {
   const user = await User.findById(req.params.id);
 

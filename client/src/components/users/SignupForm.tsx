@@ -191,19 +191,24 @@ const SignupForm = () => {
           required: "Please provide your gender!",
         }}
         render={({ field: { onChange } }) => (
-          <Select
-            variant="bordered"
-            placeholder="Select your gender"
-            isRequired
-            label="Gender"
-            onChange={onChange}
-            isInvalid={errors?.gender ? true : false}
-            errorMessage={errors?.gender?.message}
-          >
-            <SelectItem key="male">Male</SelectItem>
-            <SelectItem key="female">Female</SelectItem>
-            <SelectItem key="others">Others</SelectItem>
-          </Select>
+          <>
+            <Select
+              variant="bordered"
+              placeholder="Select your gender"
+              isRequired
+              label="Gender"
+              onChange={onChange}
+              isInvalid={errors?.gender ? true : false}
+              errorMessage={errors?.gender?.message}
+            >
+              <SelectItem key="male">Male</SelectItem>
+              <SelectItem key="female">Female</SelectItem>
+              <SelectItem key="others">Others</SelectItem>
+            </Select>
+            <p className="text-default-500 text-xs">
+              Gender won&apos;t be the part of your public profile
+            </p>
+          </>
         )}
       />
 
