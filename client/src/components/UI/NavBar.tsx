@@ -96,7 +96,7 @@ const NavBar = ({ className = "" }: NavBarProps) => {
 
   return (
     <nav
-      className={`bg-background w-full flex lg:flex-col shadow-lg border-t lg:border-r lg:border-t-0 lg:gap-4 p-8 lg:p-6 ${className}`}
+      className={`bg-background w-full flex lg:flex-col shadow-lg border-t lg:border-r lg:border-t-0 lg:gap-4 p-2 lg:p-6 ${className}`}
     >
       <Logo className="hidden lg:flex w-fit mb-4 mx-4" />
       {NAV_LINKS.map((navLink) => (

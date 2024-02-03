@@ -25,7 +25,7 @@ export async function signUp(formData: {
     }
 
     return data;
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       status: "fail",
       message: "Something went wrong!",
@@ -51,7 +51,7 @@ export async function signIn(formData: { email: string; password: string }) {
     }
 
     return data;
-  } catch (err: any) {
+  } catch (err: unknown) {
     return {
       status: "fail",
       message: "Something went wrong!",

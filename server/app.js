@@ -1,6 +1,7 @@
 const express = require("express");
 
 const morgan = require("morgan");
+const cors = require("cors");
 
 const userRouter = require("./routes/userRoutes");
 const AppError = require("./utils/appError");
@@ -9,6 +10,7 @@ const globalErrorHandler = require("./controllers/errorController");
 const app = express();
 
 // MIDDLEWARES
+app.use(cors());
 
 // Only use the morgan logger in the development environment
 if (process.env.NODE_ENV === "development") {
