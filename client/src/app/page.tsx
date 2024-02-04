@@ -1,7 +1,15 @@
+import SectionContainer from "@/components/UI/SectionContainer";
+import PostCreateForm from "@/components/posts/PostCreateForm";
 import React from "react";
 
 const HomePage = () => {
-  return <h1>WELCOME TO KATHA CORNER</h1>;
+  return (
+    <>
+      <SectionContainer className="w-full max-w-4xl">
+        <PostCreateForm />
+      </SectionContainer>
+    </>
+  );
 };
 
 export default HomePage;

@@ -14,9 +14,7 @@ interface ApiResponse {
 
 export async function getProfileById(id: string): Promise<ApiResponse> {
   try {
-    const res = await fetch(`http://127.0.0.1:8000/api/v1/users/${id}`, {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(`http://127.0.0.1:8000/api/v1/users/${id}`);
 
     const data: ApiResponse = await res.json();
 
