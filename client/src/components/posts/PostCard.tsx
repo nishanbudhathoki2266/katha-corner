@@ -42,10 +42,10 @@ const PostCard = ({ post, userId }: PostCardProps) => {
 
           <div className="flex flex-col gap-1 items-start justify-center">
             <h4 className="text-small font-semibold leading-none text-default-600">
-              Nishan Budhathoki
+              {post?.user?.name}
             </h4>
             <h5 className="text-small tracking-tight text-default-400">
-              nishanbudhathoki2266@gmail.com
+              {post?.user?.email}
             </h5>
           </div>
         </div>
@@ -78,16 +78,8 @@ const PostCard = ({ post, userId }: PostCardProps) => {
       </CardHeader>
 
       <CardBody className="overflow-visible px-3 py-0 text-small text-default-600">
-        <p>
-          Frontend developer and UI/UX enthusiast. Join me on this coding
-          adventure!
-        </p>
-        <span className="pt-2">
-          #FrontendWithZoey
-          <span className="py-2" aria-label="computer" role="img">
-            💻
-          </span>
-        </span>
+        <time> {}</time>
+        <p>{post?.description}</p>
       </CardBody>
 
       <CardFooter className="gap-3">

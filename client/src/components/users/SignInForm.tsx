@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
 
-import { Link } from "@nextui-org/link";
 import { Input } from "@nextui-org/input";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";

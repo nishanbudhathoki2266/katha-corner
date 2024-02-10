@@ -161,7 +161,7 @@ const ProfilePage: React.FC = () => {
       {!isLoadingPosts && !posts?.length ? (
         <SectionContainer className="min-h-[40dvh] p-4 lg:p-6 border border-default-100 rounded-lg flex justify-center items-center shadow-lg mt-4 flex-col">
           <MdOutlinePostAdd
-            className="text-9xl text-foreground-300 hover:scale-105 cursor-pointer transition-transform ease-in-out duration-400"
+            className="text-9xl text-foreground-300 hover:scale-105 cursor-pointer transition-transform ease-in-out duration-300"
             onClick={() => router.push("/")}
           />
           <h1 className="text-2xl text-foreground-500 capitalize font-bold">
@@ -172,7 +172,7 @@ const ProfilePage: React.FC = () => {
           </p>
         </SectionContainer>
       ) : (
-        <SectionContainer className="p-4 min-h-screen lg:p-6 border border-default-100 rounded-lg shadow-lg mt-4 flex flex-col gap-4">
+        <SectionContainer className="p-4 lg:p-6 border border-default-100 rounded-lg shadow-lg mt-4 flex flex-col gap-4">
           <h1 className="text-lg text-default-600 font-semibold leading-tight">
             Your Posts
           </h1>
