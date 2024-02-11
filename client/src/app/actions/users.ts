@@ -12,7 +12,7 @@ interface ApiResponse {
   stack?: string;
 }
 
-export async function getProfileById(id: string): Promise<ApiResponse> {
+export async function getProfileById(id: string | null): Promise<ApiResponse> {
   try {
     const res = await fetch(`http://127.0.0.1:8000/api/v1/users/${id}`);
 

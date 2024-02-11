@@ -18,9 +18,14 @@ exports.getAllMyPosts = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllPosts = catchAsync(async (req, res, next) => {
+  const posts = await Post.find();
+
   res.status(200).json({
     status: "success",
-    message: "All users",
+    results: posts.length,
+    data: {
+      posts,
+    },
   });
 });
 

@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 
+const commentRouter = require("./routes/commentRoutes");
 const postRouter = require("./routes/postRoutes");
 const userRouter = require("./routes/userRoutes");
 const AppError = require("./utils/appError");
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
 // ROUTES
+app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/users", userRouter);
 

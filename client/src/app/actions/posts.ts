@@ -38,7 +38,7 @@ interface CreatePostApiResponse {
 }
 
 export async function getMyPosts(
-  token: string
+  token: string | null
 ): Promise<GetMyPostsApiResponse> {
   try {
     const res = await fetch(`http://127.0.0.1:8000/api/v1/posts/myPosts`, {

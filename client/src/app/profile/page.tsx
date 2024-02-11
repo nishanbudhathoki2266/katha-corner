@@ -17,6 +17,9 @@ import { getProfileById } from "../actions/users";
 import { getMyPosts } from "../actions/posts";
 import PostCardSkeleton from "@/components/posts/PostCardSkeleton";
 import { useRouter } from "next/navigation";
+import useGetMyPosts from "@/hooks/useMyPosts";
+import useMyPosts from "@/hooks/useMyPosts";
+import { useUser } from "@nextui-org/react";
 
 interface ProfileApiResponse {
   _id: string;
@@ -36,15 +39,14 @@ interface PostsApiResponse {
 
 const ProfilePage: React.FC = () => {
   const userId = useSelector(getUserDetails)?._id;
-  const token = useSelector(getToken);
+  const token = useSelector(getToken) ?? null;
 
   const router = useRouter();
 
+  const { isLoading: isLoadingPosts, myPosts: posts } = useMyPosts(token);
+
   const [isLoadingUser, setIsLoadingUser] = useState<Boolean>(true);
   const [user, setUser] = useState<ProfileApiResponse | null>(null);
-
-  const [isLoadingPosts, setIsLoadingPosts] = useState<boolean>(true);
-  const [posts, setPosts] = useState<PostsApiResponse[] | null>(null);
 
   // Also could use the separate api for fetching current user's profile, but keeping it here simple for now
   const fetchUserInfo = async () => {
@@ -61,23 +63,11 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  const fetchUserPosts = async () => {
-    if (!token) return;
-
-    const res = await getMyPosts(token);
-
-    setIsLoadingPosts(false);
-
-    if (res.status === "success" && res.data?.posts) {
-      setPosts(res.data?.posts);
-    } else {
-      res.message && toast.error(res.message);
-    }
-  };
+  if (!isLoadingPosts && !posts)
+    toast.error("Couldn't fetch your posts!", { id: "fetchMyPostsError" });
 
   useEffect(() => {
     fetchUserInfo();
-    fetchUserPosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

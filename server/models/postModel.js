@@ -27,12 +27,22 @@ const postSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
+// Virtual field comment for displaying comments in a post!
+postSchema.virtual("comments", {
+  ref: "Comment",
+  foreignField: "post",
+  localField: "_id",
+});
+
 postSchema.pre(/^find/, function (next) {
-  // Todo: Also populate user's photo in future
-  this.populate({ path: "user", select: "name email" });
+  this.populate({ path: "user", select: "name email" }).populate({
+    path: "comments",
+  });
   next();
 });
 
