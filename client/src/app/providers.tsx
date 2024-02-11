@@ -12,7 +12,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 1,
+      },
+    },
+  });
 
   return (
     <Provider store={store}>
