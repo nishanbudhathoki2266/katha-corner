@@ -38,7 +38,7 @@ interface PostsApiResponse {
 }
 
 const ProfilePage: React.FC = () => {
-  const userId = useSelector(getUserDetails)?._id || null;
+  const userId = useSelector(getUserDetails)?._id;
   const token = useSelector(getToken) ?? null;
 
   const router = useRouter();
