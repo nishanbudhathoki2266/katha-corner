@@ -22,14 +22,10 @@ const commentSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
-
-// commentSchema.pre(/^find/, function (next) {
-//   // Todo: Also populate user's photo in future
-//   this.populate({ path: "user", select: "name email" });
-//   next();
-// });
 
 const Comment = mongoose.model("Comment", commentSchema);
 
