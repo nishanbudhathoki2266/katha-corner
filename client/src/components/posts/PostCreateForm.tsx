@@ -65,7 +65,6 @@ const PostCreateForm = () => {
       <Controller
         control={control}
         name="description"
-        defaultValue="Somewhere under the sky"
         rules={{
           minLength: {
             value: 10,
@@ -76,8 +75,9 @@ const PostCreateForm = () => {
             message: "Only 500 or less characters allowed!",
           },
         }}
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange, value } }) => (
           <Textarea
+            value={value || ""}
             variant="bordered"
             label="What's on your mind?"
             labelPlacement="inside"
@@ -113,6 +113,7 @@ const PostCreateForm = () => {
                       <Controller
                         control={control}
                         name="location"
+                        defaultValue="Somewhere under the sky"
                         rules={{
                           required: {
                             value: true,
