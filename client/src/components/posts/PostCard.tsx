@@ -2,19 +2,27 @@
 
 import React from "react";
 
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { Controller, useForm } from "react-hook-form";
+
+import { MdEdit } from "react-icons/md";
+import { Input } from "@nextui-org/input";
 import { Avatar } from "@nextui-org/avatar";
 import { Button } from "@nextui-org/button";
+import { Divider } from "@nextui-org/divider";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
-import { MdEdit } from "react-icons/md";
 import {
   Modal,
-  ModalContent,
-  ModalHeader,
   ModalBody,
+  ModalContent,
   ModalFooter,
+  ModalHeader,
   useDisclosure,
 } from "@nextui-org/modal";
+
 import CommentCard from "../comments/CommentCard";
+import { error } from "console";
 
 // Since I'm new to TS, I am rewriting repeated interfaces just to be more familiar with it. Room for improvement in the future! Todo 😉
 interface Post {
@@ -43,9 +51,21 @@ interface PostCardProps {
   userId?: string;
 }
 
+interface CommentFormValues {
+  comment: string;
+}
+
 const PostCard = ({ post, userId }: PostCardProps) => {
   const [isFollowed, setIsFollowed] = React.useState<Boolean>(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const { handleSubmit, control, reset } = useForm<CommentFormValues>();
+
+  const onSubmit = async (formData: CommentFormValues) => {
+    const { comment } = formData;
+    console.log("COMMENT ", comment);
+    reset();
+  };
 
   return (
     <Card className="w-full">
@@ -96,56 +116,98 @@ const PostCard = ({ post, userId }: PostCardProps) => {
       </CardHeader>
 
       <CardBody className="overflow-visible px-3 py-0 text-small text-default-600">
-        <time> {}</time>
+        {/* <time> {post?.createdAt}</time> */}
         <p>{post?.description}</p>
       </CardBody>
 
-      <CardFooter className="gap-3">
-        <div className="flex gap-1">
-          <p className="font-semibold text-default-400 text-small">4</p>
-          <p className=" text-default-400 text-small">likes</p>
+      <CardFooter className="gap-3 flex-col items-start">
+        <div className="flex flex-row gap-3">
+          <div className="flex gap-1">
+            <p className="font-semibold text-default-400 text-small">4</p>
+            <p className=" text-default-400 text-small">likes</p>
+          </div>
+
+          {post?.comments?.length ? (
+            <div className="flex flex-col gap-2">
+              <div onClick={onOpen} className="flex gap-1 cursor-pointer">
+                <p className="font-semibold text-default-400 text-small">
+                  {post?.comments?.length}
+                </p>
+                <p className="text-default-400 text-small">
+                  {post?.comments?.length === 1 ? "comment" : "comments"}
+                </p>
+              </div>
+
+              <Modal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                size="3xl"
+                scrollBehavior={"inside"}
+              >
+                <ModalContent>
+                  {() => (
+                    <>
+                      <ModalHeader className="flex flex-col gap-1">
+                        All comments
+                      </ModalHeader>
+                      <ModalBody>
+                        {post?.comments?.map((comment) => (
+                          <CommentCard
+                            key={comment._id}
+                            comment={comment.comment}
+                          />
+                        ))}
+                      </ModalBody>
+                      <ModalFooter></ModalFooter>
+                    </>
+                  )}
+                </ModalContent>
+              </Modal>
+            </div>
+          ) : (
+            <div className="flex gap-1">
+              <p className="font-semibold text-default-400 text-small">0</p>
+              <p className=" text-default-400 text-small">comment</p>
+            </div>
+          )}
         </div>
 
-        {post?.comments?.length ? (
-          <div className="flex flex-col gap-2">
-            <div onClick={onOpen} className="flex gap-1 cursor-pointer">
-              <p className="font-semibold text-default-400 text-small">
-                {post?.comments?.length}
-              </p>
-              <p className="text-default-400 text-small">comments</p>
-            </div>
+        {/* Divider */}
+        <Divider />
 
-            <Modal
-              isOpen={isOpen}
-              onOpenChange={onOpenChange}
-              size="3xl"
-              scrollBehavior={"inside"}
-            >
-              <ModalContent>
-                {(onClose) => (
-                  <>
-                    <ModalHeader className="flex flex-col gap-1">
-                      All comments
-                    </ModalHeader>
-                    <ModalBody>
-                      {post?.comments?.map((comment) => (
-                        <CommentCard
-                          key={comment._id}
-                          comment={comment.comment}
-                        />
-                      ))}
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="danger" variant="light" onPress={onClose}>
-                        Close
-                      </Button>
-                    </ModalFooter>
-                  </>
-                )}
-              </ModalContent>
-            </Modal>
-          </div>
-        ) : null}
+        {/* Comment form */}
+        <form
+          className="flex w-full items-center gap-2"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          {/* Comment field  */}
+          <Controller
+            control={control}
+            name="comment"
+            rules={{
+              required: true,
+            }}
+            render={({
+              field: { onChange, value },
+              fieldState: { invalid },
+            }) => (
+              <Input
+                isRequired
+                type="text"
+                // @ts-ignore
+                size="xs"
+                value={value || ""}
+                placeholder="Add a comment..."
+                variant="bordered"
+                isInvalid={invalid}
+                onChange={onChange}
+              />
+            )}
+          />
+
+          {/* Sign In Button */}
+          <Button type="submit">Post</Button>
+        </form>
       </CardFooter>
     </Card>
   );
