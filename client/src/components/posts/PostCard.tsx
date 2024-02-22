@@ -3,7 +3,7 @@
 import React from "react";
 
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
 
 import { MdEdit } from "react-icons/md";
@@ -23,6 +23,8 @@ import {
 
 import CommentCard from "../comments/CommentCard";
 import { error } from "console";
+import { useCreateComment } from "@/hooks/useCreateComment";
+import { getToken } from "@/redux/reducerSlices/user";
 
 // Since I'm new to TS, I am rewriting repeated interfaces just to be more familiar with it. Room for improvement in the future! Todo 😉
 interface Post {
@@ -59,12 +61,26 @@ const PostCard = ({ post, userId }: PostCardProps) => {
   const [isFollowed, setIsFollowed] = React.useState<Boolean>(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  const token = useSelector(getToken) || "";
+
+  // use create comment
+
+  const { isPending, mutate } = useCreateComment();
+
   const { handleSubmit, control, reset } = useForm<CommentFormValues>();
 
   const onSubmit = async (formData: CommentFormValues) => {
     const { comment } = formData;
-    console.log("COMMENT ", comment);
-    reset();
+
+    mutate(
+      { token, postId: post?._id, comment },
+      {
+        onSuccess: () => {
+          reset();
+          onOpen();
+        },
+      }
+    );
   };
 
   return (
@@ -142,7 +158,7 @@ const PostCard = ({ post, userId }: PostCardProps) => {
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
                 size="3xl"
-                scrollBehavior={"inside"}
+                scrollBehavior={"outside"}
               >
                 <ModalContent>
                   {() => (
@@ -150,7 +166,7 @@ const PostCard = ({ post, userId }: PostCardProps) => {
                       <ModalHeader className="flex flex-col gap-1">
                         All comments
                       </ModalHeader>
-                      <ModalBody>
+                      <ModalBody className="w-full">
                         {post?.comments?.map((comment) => (
                           <CommentCard
                             key={comment._id}
@@ -206,7 +222,9 @@ const PostCard = ({ post, userId }: PostCardProps) => {
           />
 
           {/* Sign In Button */}
-          <Button type="submit">Post</Button>
+          <Button type="submit" isLoading={isPending}>
+            Post
+          </Button>
         </form>
       </CardFooter>
     </Card>
